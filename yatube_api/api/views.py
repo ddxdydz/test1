@@ -13,21 +13,12 @@ class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
 
-    def perform_create(self, serializer):
-        if self.request.user.is_anonymous:
-            raise PermissionDenied('Требуется авторизация.')
-        serializer.save()
-
     def perform_update(self, serializer):
-        if self.request.user.is_anonymous:
-            raise PermissionDenied('Требуется авторизация.')
         if serializer.instance.author != self.request.user:
             raise PermissionDenied('Изменение чужого контента запрещено!')
         super(PostViewSet, self).perform_update(serializer)
 
     def perform_delete(self, serializer):
-        if self.request.user.is_anonymous:
-            raise PermissionDenied('Требуется авторизация.')
         if serializer.instance.author != self.request.user:
             raise PermissionDenied('Удаление чужого контента запрещено!')
         super(PostViewSet, self).perform_delete(serializer)
@@ -41,8 +32,6 @@ class CommentViewSet(viewsets.ModelViewSet):
         return Comment.objects.filter(post_id=post_id)
 
     def perform_create(self, serializer):
-        if self.request.user.is_anonymous:
-            raise PermissionDenied('Требуется авторизация.')
         post_id = self.kwargs.get('post_id')
         post = Post.objects.get(id=post_id)
         serializer.save(author=self.request.user, post=post)
@@ -52,7 +41,7 @@ class CommentViewSet(viewsets.ModelViewSet):
             raise PermissionDenied('Изменение чужого контента запрещено!')
         super(CommentViewSet, self).perform_update(serializer)
 
-    def perform_delete(self, serializer):
-        if serializer.instance.author != self.request.user:
+    def perform_destroy(self, instance):
+        if instance.author != self.request.user:
             raise PermissionDenied('Удаление чужого контента запрещено!')
-        super(CommentViewSet, self).perform_delete(serializer)
+        instance.delete()
