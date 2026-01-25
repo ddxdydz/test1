@@ -25,7 +25,6 @@ class PostViewSet(viewsets.ModelViewSet):
 
 
 class CommentViewSet(viewsets.ModelViewSet):
-    queryset = Comment.objects.all()
     serializer_class = CommentSerializer
 
     def get_queryset(self):
@@ -34,7 +33,7 @@ class CommentViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         post_id = self.kwargs.get('post_id')
-        post = Post.objects.get(id=post_id)  # Проверяем существование поста
+        post = Post.objects.get(id=post_id)
         serializer.save(author=self.request.user, post=post)
 
     def perform_update(self, serializer):
