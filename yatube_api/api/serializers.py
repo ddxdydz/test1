@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from yatube_api.posts.models import Group, Post, Comment
+from posts.models import Group, Post, Comment
 
 
 class GroupSerializer(serializers.ModelSerializer):
