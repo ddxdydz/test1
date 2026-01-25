@@ -1,4 +1,5 @@
-from rest_framework import viewsets, PermissionDenied
+from rest_framework import viewsets
+from rest_framework.exceptions import PermissionDenied
 from yatube_api.posts.models import Group, Post, Comment
 from .serializers import GroupSerializer, PostSerializer, CommentSerializer
 
