@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from posts.models import Group, Post, Comment
+from posts.models import Group, Post, Comment, User
 
 
 class GroupSerializer(serializers.ModelSerializer):
@@ -14,7 +14,7 @@ class PostSerializer(serializers.ModelSerializer):
         source='author',
         slug_field='name',
         read_only=True,
-        default=serializers.CurrentUserDefault()
+        queryset=User.objects.all()
     )
 
     class Meta:
@@ -28,7 +28,7 @@ class CommentSerializer(serializers.ModelSerializer):
         source='author',
         slug_field='name',
         read_only=True,
-        default=serializers.CurrentUserDefault()
+        queryset=User.objects.all()
     )
 
     class Meta:
