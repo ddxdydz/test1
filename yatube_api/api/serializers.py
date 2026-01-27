@@ -3,7 +3,7 @@ from rest_framework import serializers
 from posts.models import Group, Post, Comment
 
 
-class GroupSerializer(serializers.ModelSerializer):
+class GroupSerializer(serializers.ReadOnlyModelViewSet):
     class Meta:
         model = Group
         fields = '__all__'
