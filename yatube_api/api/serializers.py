@@ -12,7 +12,7 @@ class GroupSerializer(serializers.ModelSerializer):
 class PostSerializer(serializers.ModelSerializer):
     author = serializers.SlugRelatedField(
         source='author',
-        slug_field='username',
+        slug_field='name',
         read_only=True,
         default=serializers.CurrentUserDefault()
     )
@@ -26,7 +26,7 @@ class PostSerializer(serializers.ModelSerializer):
 class CommentSerializer(serializers.ModelSerializer):
     author = serializers.SlugRelatedField(
         source='author',
-        slug_field='username',
+        slug_field='name',
         read_only=True,
         default=serializers.CurrentUserDefault()
     )
